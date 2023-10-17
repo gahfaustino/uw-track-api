@@ -1,0 +1,22 @@
+{
+    "authOptions":
+        {
+            "clientId": "7fe3b69f-eb85-4820-a034-70c1e03f955d",
+            "authority": "https://login.microsoftonline.com/organizations/"            
+        },
+    "request":
+    {
+        "authCodeUrlParameters": {
+            "scopes": ["user.read"],
+            "redirectUri": "http://localhost:3000/redirect"
+        },
+        "tokenRequest": {
+            "redirectUri": "http://localhost:3000/redirect",
+            "scopes": ["user.read"]
+        }
+    },
+    "resourceApi":
+    {
+        "endpoint": "https://graph.microsoft.com/v1.0/me"
+    }
+}
