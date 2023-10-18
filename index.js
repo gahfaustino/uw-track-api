@@ -1,12 +1,12 @@
 // Load environment vars and DB
 require('dotenv').config()
+var fs = require('fs')
 require('./config/db')
 
 // Import packages
 const express = require('express')
-const {Server} = require('@tus/server')
+const {Server, EVENTS} = require('@tus/server')
 const {FileStore} = require('@tus/file-store')
-const { createProxyMiddleware } = require('http-proxy-middleware')
 const path = require('path')
 const bodyParser = require('body-parser')
 const busboyBodyParser = require('./helpers/body-parser')
@@ -33,8 +33,33 @@ global._base = path.join(__dirname, '/')
 //   audience: ['https://dev-0w6h4qjzioi3gv0d.us.auth0.com/api/v2/']
 // }));
 
+
+
 const tuxServer = new Server({
-  datastore: new FileStore({path: '/files'}),
+  path: '/',
+  datastore: new FileStore({
+    directory: './uploads'
+  }),
+  onUploadFinish: (req, res, upload) => {
+    console.log('UploadFinish', req.metaFields, upload.id);
+    try {
+      var fileData = fs.readFileSync('./uploads/'+upload.id)
+
+      console.log('UploadFinish', req.originalUrl)
+    } catch(err) {
+      console.log('Error Testing', err)
+    }
+  },
+  onIncomingRequest: (req, res) => {
+    // try {
+    //   var fileData = fs.readFileSync('.'+req.originalUrl)
+
+    console.log('IncomingRequest', req)
+    // //req.next()
+    // } catch(err) {
+    //   console.log('Error Testing', err)
+    // }
+  },
 })
 
 uploadApp.all('*', tuxServer.handle.bind(tuxServer))
