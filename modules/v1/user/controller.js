@@ -12,6 +12,10 @@ const controllerActions = {
       const model = await Model.findAll({
         where: deleted_at = null,
         attributes: {exclude: ['password']},
+        include: [{
+          model: BillingModel,
+          required: false,
+        }],
         order: [['id','DESC']]
       })
 
@@ -68,7 +72,7 @@ const controllerActions = {
     } = req.body
 
     try {
-      const model = await BillingModel.upsert({
+      const model = await BillingModel.update({
         gstCertificateNumber: gstCertNumber,
         panNumber: panNumber,
         billingaddress: address,
@@ -168,7 +172,11 @@ const controllerActions = {
     try {
       const model = await Model.findOne({ 
         where: { id: id, deleted_at: null },
-        attributes: {exclude: ['password']}
+        attributes: {exclude: ['password']},
+        include: [{
+          model: BillingModel,
+          required: false,
+        }],
       })
 
       res.status(200).json(model)

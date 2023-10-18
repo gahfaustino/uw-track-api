@@ -2,6 +2,8 @@ const rfr = require('rfr')
 const { DataTypes } = require('sequelize')
 
 const db = rfr('/config/db').pgsql
+const BillingModel = require('./billing')
+
 const model = db.define('Users', {
   id: {
     type: DataTypes.INTEGER,
@@ -34,6 +36,10 @@ const model = db.define('Users', {
 }, {
   tableName: 'users',
   timestamps: false
+})
+
+model.hasOne(BillingModel, {
+  foreignKey: 'userid'
 })
 
 module.exports = model
