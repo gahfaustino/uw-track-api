@@ -7,14 +7,32 @@ const model = db.define('UserBills', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    field: 'billingId'
+    field: 'billingid'
   },
-  userId: DataTypes.INTEGER,
-  gstCertificateNumber: DataTypes.STRING,
-  gstCertificateFile: DataTypes.BLOB,
-  panNumber: DataTypes.STRING,
-  panFile: DataTypes.BLOB('long'),
-  billingAddress: DataTypes.STRING
+  userId: { 
+    type: DataTypes.INTEGER,
+    field: 'userid'
+  },
+  gstCertificateNumber: { 
+    type: DataTypes.STRING,
+    field: 'gstcertificatenumber'
+  },
+  gstCertificateFile: { 
+    type: DataTypes.BLOB('long'),
+    field: 'gstcertificatefile'
+  },
+  panNumber:{ 
+    type: DataTypes.STRING,
+    field: 'pannumber'
+  },
+  // panFile: { 
+  //   type: DataTypes.BLOB('long'),
+  //   field: 'panfile'
+  // },
+  billingAddress: { 
+    type: DataTypes.STRING,
+    field: 'billingaddress'
+  },
 }, {
   tableName: 'users_billing',
   timestamps: false

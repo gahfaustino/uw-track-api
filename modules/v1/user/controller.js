@@ -2,8 +2,8 @@ const rfr = require('rfr')
 const moment = rfr('/helpers/moment')
 const jwt = rfr('/helpers/jwt')
 const Model = require('./models/model')
+const BillingModel = require('./models/billing')
 const hash = rfr('helpers/hash')
-const crypto = rfr('helpers/crypto')
 
 const controllerActions = {
   find: async (req, res) => {
@@ -43,14 +43,8 @@ const controllerActions = {
     }
   },
   update: async (req, res) => {
-    // const {
-    //   name,
-    //   email,
-    //   password,
-    //   isactive
-    // } = req.body
     const { id } = req.params
-    console.log('body', id);
+
     try {
       const model = await Model.update(req.body, {
         where: { 
@@ -65,23 +59,27 @@ const controllerActions = {
     }
   },
   billingUpdate: async (req, res) => {
-    // const {
-    //   name,
-    //   email,
-    //   password,
-    //   isactive
-    // } = req.body
-    // const { id } = req.params
-    // console.log('body', id);
-    try {
-      // const model = await Model.update(req.body, {
-      //   where: { 
-      //     id: id
-      //   } 
-      // })
+    const { id } = req.params
 
-      console.log(req.body);
-      res.status(200).json(req.body)
+    const {
+      gstCertNumber,
+      panNumber,
+      address,
+    } = req.body
+
+    try {
+      const model = await BillingModel.upsert({
+        gstCertificateNumber: gstCertNumber,
+        panNumber: panNumber,
+        billingaddress: address,
+        userId: id
+      }, {
+        where: { 
+          userId: id
+        } 
+      })
+
+      res.status(200).json(model)
     } catch (err) {
       console.log('Error', err)
       res.status(500).json(err)
