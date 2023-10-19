@@ -105,7 +105,6 @@ const controllerActions = {
         gstCertificateNumber: gstCertNumber,
         panNumber: panNumber,
         billingaddress: address,
-        userId: id
       }, {
         where: { 
           userId: id
