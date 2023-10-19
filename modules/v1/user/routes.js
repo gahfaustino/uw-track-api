@@ -5,8 +5,6 @@ const validators = require('./validators')
 const jwtMiddleware = rfr('/helpers/jwt').middleware
 const multerMiddleware = rfr('/helpers/multer')
 
-
-
 // Create
 router.post('/', [jwtMiddleware, validators.create, validators.uniqueEmailValidator], controller.create)
 
@@ -19,8 +17,11 @@ router.put('/:id/billing', [jwtMiddleware], controller.billingUpdate)
 // Save Billings Documents 
 router.post('/:id/document/upload', [jwtMiddleware, multerMiddleware], controller.documentUpload)
 
+// Get Billings Documents 
+router.get('/:id/document/view', [jwtMiddleware], controller.documentDownload)
+
 // Attach
-router.put('/attach', [jwtMiddleware], controller.attach)
+router.post('/attach', [jwtMiddleware], controller.attach)
 
 // Get
 router.get('/', [jwtMiddleware], controller.find)

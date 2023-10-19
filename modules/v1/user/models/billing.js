@@ -21,6 +21,10 @@ const model = db.define('UserBills', {
     type: DataTypes.BLOB('long'),
     field: 'gstcertificatefile'
   },
+  gstCertFile: { 
+    type: DataTypes.BLOB,
+    field: 'gstcertfile'
+  },
   panNumber:{ 
     type: DataTypes.STRING,
     field: 'pannumber'

@@ -1,9 +1,11 @@
 const rfr = require('rfr')
+const { head } = require('lodash')
 const moment = rfr('/helpers/moment')
 const jwt = rfr('/helpers/jwt')
 const Model = require('./models/model')
 const BillingModel = require('./models/billing')
 const hash = rfr('helpers/hash')
+const path = require('path')
 
 const controllerActions = {
   find: async (req, res) => {
@@ -90,35 +92,37 @@ const controllerActions = {
     }
   },
   documentUpload: async (req, res) => {
-    // const {
-    //   name,
-    //   email,
-    //   password,
-    //   isactive
-    // } = req.body
-    // const { id } = req.params
-    // console.log('body', id);
-    try {
-      // const model = await Model.update(req.body, {
-      //   where: { 
-      //     id: id
-      //   } 
-      // })
+    const { id } = req.params
+    const { gstCertFile } = req.files;
 
-      upload(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-          // A Multer error occurred when uploading.
-        } else if (err) {
-          // An unknown error occurred when uploading.
-        }
-    
-        // Everything went fine.
+    try {
+      const model = await BillingModel.update({
+        gstCertFile: head(gstCertFile).data
+      }, {
+        where: { 
+          userId: id
+        } 
       })
 
-      const { file } = req.body;
-      console.log('file', req.file, file);
+      res.status(200).json({msg: 'File Uploaded Succefully!!!', data: model})
+    } catch (err) {
+      console.log('Error', err)
+      res.status(500).json(err)
+    }
+  },
 
-      res.status(200).json(req.body)
+  documentDownload: async (req, res) => {
+    const { id } = req.params
+
+    try {
+      const model = await BillingModel.findOne({
+        where: {
+          userId: id
+        },
+       })
+
+      res.setHeader('Content-type', 'application/pdf');
+      res.send(model?.gstCertFile);
     } catch (err) {
       console.log('Error', err)
       res.status(500).json(err)
@@ -130,7 +134,7 @@ const controllerActions = {
       trackuserid,
       active
     } = req.body
-
+    console.log('body', req.body)
     try {
       const model = await Model.update({
         trackuserid: trackuserid,
