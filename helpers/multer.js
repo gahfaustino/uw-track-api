@@ -1,14 +1,14 @@
+const path = require('path')
 const multer  = require('multer')
-const upload = multer().single('avatar')
 
-const multerMiddleware = (req, res, next) => {
-    try {
-        return upload.single('uploaded_file')
-    } catch(err) {
-        console.log('Err Multer', err)
+const storage = multer.diskStorage({
+    destination: `${__dirname}/uploads`,
+    filename: (req, file, cb) => {
+        const fileName = `${Date.now()}${path.extname(file.originalname)}`
+        cb(null, fileName)
     }
+})
 
-    return upload.single('uploaded_file')
-};
+const multerMiddleware = multer({ storage }).single('gstCertFile')
 
 module.exports = multerMiddleware;
