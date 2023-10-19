@@ -7,9 +7,17 @@ const { APP_SECRET } = process.env
  * Extracts the JWT in authorization header
  */
 const getTokenFromRequest = (req) => {
+  const { token } = req.query
   const authorization = req.header('authorization')
-  if (!authorization) { return false }
-  return authorization.split(' ')[1] // Bearer
+  if(token) {
+    return token;
+  }
+
+  if(authorization) {
+    return authorization.split(' ')[1]
+  }
+
+  return false
 }
 
 /**
