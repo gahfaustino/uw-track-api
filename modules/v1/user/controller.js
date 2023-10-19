@@ -64,6 +64,33 @@ const controllerActions = {
       res.status(500).json(err)
     }
   },
+  billingCreate: async (req, res) => {
+    const { id } = req.params
+
+    const {
+      gstCertNumber,
+      panNumber,
+      address,
+    } = req.body
+
+    try {
+      const model = await BillingModel.create({
+        gstCertificateNumber: gstCertNumber,
+        panNumber: panNumber,
+        billingaddress: address,
+        userId: id
+      }, {
+        where: { 
+          userId: id
+        } 
+      })
+
+      res.status(200).json(model)
+    } catch (err) {
+      console.log('Error', err)
+      res.status(500).json(err)
+    }
+  },
   billingUpdate: async (req, res) => {
     const { id } = req.params
 

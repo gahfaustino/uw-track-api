@@ -11,6 +11,9 @@ router.post('/', [jwtMiddleware, validators.create, validators.uniqueEmailValida
 // Update
 router.put('/:id', [jwtMiddleware], controller.update)
 
+// Billing Insert
+router.post('/:id/billing', [jwtMiddleware], controller.billingCreate)
+
 // Billing Update
 router.put('/:id/billing', [jwtMiddleware], controller.billingUpdate)
 
