@@ -170,7 +170,7 @@ const controllerActions = {
     }
   },
   getSession: async (req, res) => {
-    const payload = jwt.getPayload(req)
+    const payload = await jwt.getPayload(req)
     const id = payload?.sub;
 
     try {
@@ -182,7 +182,7 @@ const controllerActions = {
           required: false,
         }],
       })
-
+      console.log('model', model);
       res.status(200).json(model)
       //res.status(200).json({ hashed: crypto.gen(password) })
     } catch (err) {
