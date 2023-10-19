@@ -134,7 +134,7 @@ const controllerActions = {
       trackuserid,
       active
     } = req.body
-    console.log('body', req.body)
+
     try {
       const model = await Model.update({
         trackuserid: trackuserid,
@@ -179,12 +179,12 @@ const controllerActions = {
         attributes: {exclude: ['password']},
         include: [{
           model: BillingModel,
+          attributes: { exclude: ['gstCertFile', 'gstcertfile'] },
           required: false,
         }],
       })
-      console.log('model', model);
+      
       res.status(200).json(model)
-      //res.status(200).json({ hashed: crypto.gen(password) })
     } catch (err) {
       console.log(err)
       res.status(500).json(err)
