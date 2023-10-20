@@ -23,6 +23,9 @@ router.post('/:id/document/upload', [jwtMiddleware, multerMiddleware], controlle
 // Get Billings Documents 
 router.get('/:id/document/view', [jwtMiddleware], controller.documentDownload)
 
+// Approve
+router.post('/approve', [jwtMiddleware], controller.approve)
+
 // Attach
 router.post('/attach', [jwtMiddleware], controller.attach)
 
