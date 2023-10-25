@@ -6,7 +6,7 @@ const jwtMiddleware = rfr('/helpers/jwt').middleware
 const multerMiddleware = rfr('/helpers/multer')
 
 // Create
-router.post('/', [jwtMiddleware, validators.create, validators.uniqueEmailValidator], controller.create)
+router.post('/', [validators.create, validators.uniqueEmailValidator], controller.create)
 
 // Update
 router.put('/:id', [jwtMiddleware], controller.update)
