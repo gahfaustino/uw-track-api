@@ -47,7 +47,6 @@ const uniqueUsernameValidator = (req, res, next) => {
 
 const nameValidators = (req) => {
   req.checkBody('name', {error: 'required'}).notEmpty()
-  req.checkBody('name', {error: 'length', min: 4, max: 20}).len(4, 20)
 }
 const emailValidators = (req) => {
   req.checkBody('email', {error: 'required'}).notEmpty()
